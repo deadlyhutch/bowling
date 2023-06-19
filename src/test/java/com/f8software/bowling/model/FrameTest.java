@@ -111,4 +111,24 @@ class FrameTest {
         assertEquals(frame.getScoreType(), Frame.ScoreType.STRIKE);
         assertEquals(frame.getStatus(), Frame.FrameState.COMPLETE);
     }
+    @Test
+    void basicBowledTest() {
+        frame.addBowl(4);
+        frame.addBowl(3);
+
+        assertEquals(7, frame.totalBowled());
+    }
+    @Test
+    void noBowledTest() {
+        frame.addBowl(0);
+        frame.addBowl(0);
+
+        assertEquals(0, frame.totalBowled());
+    }
+    @Test
+    void invalidBowlTests() {;
+        assertEquals(false, frame.addBowl(-1));
+        assertEquals(true, frame.addBowl(1));
+        assertEquals(false, frame.addBowl(11));
+    }
 }
