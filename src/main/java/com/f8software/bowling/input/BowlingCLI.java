@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class BowlingCLI implements InputProvider {
 
     final static Logger logger = LogManager.getLogger(BowlingCLI.class);
-    private static int MAX_TRIES = 3;
+    private static final int MAX_TRIES = 3;
     private static final String MESSAGE = "How many pins were knocked down?";
     private static final String INVALID_MESSAGE = "Invalid input, please enter a number";
 
