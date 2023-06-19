@@ -10,6 +10,9 @@ The event that changes the state is a player performing a bowl, this is indicate
 an integer via the command line interface. The integer will represent the amount of pins
 that were knocked over during the bowl. This is the only input required to the app.
 
+Invalid entries such as negative values or values above the remaining pins in the frames will be ignored
+and the user will have the opportunity to re-enter.
+
 When a bowl is entered via the Player.addBowl() method the player will internally keep
 track of the game frames and running score totals for each.
 
