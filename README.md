@@ -14,4 +14,4 @@ When a bowl is entered via the Player.addBowl() method the player will internall
 track of the game frames and running score totals for each.
 
 After Player.addBowl() is called the internal state is updated and so the player itself
-can be passed to a renderer to be renderer and will display the current state of the game.
+can be passed to a renderer to be rendered and will display the current state of the game.
