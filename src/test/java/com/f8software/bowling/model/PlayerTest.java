@@ -126,7 +126,7 @@ class PlayerTest {
 
     }
 
-    List<Integer> runGame(List<Integer> setup, List<Integer> end) {
+    private List<Integer> runGame(List<Integer> setup, List<Integer> end) {
         Player player = new Player();
         for (Integer bowl : setup) {
             player.addBowl(bowl);
