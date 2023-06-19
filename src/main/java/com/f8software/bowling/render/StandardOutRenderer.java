@@ -148,7 +148,7 @@ public class StandardOutRenderer implements Renderer {
             case COMPLETE -> {
                 int second = frame.getSecondBowlScore();
                 int third  = frame.getThirdBowlScore();
-                if (second + third == MAX_PINS) {
+                if (second + third == MAX_PINS && second != MAX_PINS) {
                     builder.append(LAST_FRAME_STRIKE_TEMPLATE.formatted(showStrike(second), SPARE));
                 } else {
                     builder.append(LAST_FRAME_STRIKE_TEMPLATE.formatted(showStrike(second), showStrike(third)));
