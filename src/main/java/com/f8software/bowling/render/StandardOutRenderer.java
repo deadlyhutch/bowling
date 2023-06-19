@@ -46,21 +46,24 @@ public class StandardOutRenderer implements Renderer {
 
         System.out.println(HORIZONTAL_LINE);
 
-        renderFrameHeaderRow();
-        System.out.print(renderBowlsRow(builder, frames));
-        renderScoreRow(frames);
+        renderFrameHeaderRow(builder);
+        renderBowlsRow(builder, frames);
+        renderScoreRow(builder, frames);
+
+        System.out.print(builder);
 
         System.out.println(HORIZONTAL_LINE);
     }
 
     /**
-     * Renders ths Frame Header Row
+     * Renders the Frame Header Row
      */
-    private void renderFrameHeaderRow() {
-        System.out.print(FRAME_ROW_START);
+    private StringBuilder renderFrameHeaderRow(StringBuilder builder) {
+        builder.append(FRAME_ROW_START);
         for (int frameNum= 1; frameNum <= MAX_FRAMES; frameNum++) {
-            System.out.print(FRAME_HEADER.formatted(frameNum));
+            builder.append(FRAME_HEADER.formatted(frameNum));
         }
+        return builder;
     }
 
     /**
@@ -80,13 +83,14 @@ public class StandardOutRenderer implements Renderer {
      * Renders the scores for each Frame
      * @param frames
      */
-    private void renderScoreRow(List<Frame> frames) {
-        System.out.println();
-        System.out.print(SCORE_ROW_START);
+    private StringBuilder renderScoreRow(StringBuilder builder, List<Frame> frames) {
+        builder.append("\n");
+        builder.append(SCORE_ROW_START);
         for (Frame frame : frames) {
-            System.out.print(SCORE_TEMPLATE.formatted(frame.getScore()));
+            builder.append(SCORE_TEMPLATE.formatted(frame.getScore()));
         }
-        System.out.println();
+        builder.append("\n");
+        return builder;
     }
 
     /**
@@ -128,7 +132,7 @@ public class StandardOutRenderer implements Renderer {
     private StringBuilder renderLastFrameSpare(StringBuilder builder, Frame frame) {
         if (frame.getStatus() == Frame.FrameState.COMPLETE) {
             int third = frame.getThirdBowlScore();
-            builder.append(LAST_FRAME_SPARE_TEMPLATE.formatted(frame.getFirstBowlScore(), third == 10 ? STRIKE : third));
+            builder.append(LAST_FRAME_SPARE_TEMPLATE.formatted(frame.getFirstBowlScore(), showStrike(third)));
         } else {
             builder.append(SPARE_TEMPLATE.formatted(frame.getFirstBowlScore()));
         }
@@ -145,19 +149,28 @@ public class StandardOutRenderer implements Renderer {
                 int second = frame.getSecondBowlScore();
                 int third  = frame.getThirdBowlScore();
                 if (second + third == MAX_PINS) {
-                    builder.append(LAST_FRAME_STRIKE_TEMPLATE.formatted(second == MAX_PINS ? STRIKE : second, SPARE));
+                    builder.append(LAST_FRAME_STRIKE_TEMPLATE.formatted(showStrike(second), SPARE));
                 } else {
-                    builder.append(LAST_FRAME_STRIKE_TEMPLATE.formatted(second == MAX_PINS ? STRIKE : second, third == MAX_PINS ? STRIKE : third));
+                    builder.append(LAST_FRAME_STRIKE_TEMPLATE.formatted(showStrike(second), showStrike(third)));
                 }
             }
             case TWO_BOWLED -> {
                 int second = frame.getSecondBowlScore();
-                builder.append(LAST_FRAME_STRIKE_TEMPLATE.formatted( second == MAX_PINS ? STRIKE : second, BLANK));
+                builder.append(LAST_FRAME_STRIKE_TEMPLATE.formatted( showStrike(second), BLANK));
             }
             default -> {
                 builder.append(LAST_FRAME_STRIKE_TEMPLATE.formatted( BLANK, BLANK));
             }
         }
         return builder;
+    }
+
+    /**
+     * Simple utility method to display X instead of 10
+     * @param bowl
+     * @return
+     */
+    private String showStrike(int bowl) {
+        return bowl == MAX_PINS ? STRIKE : String.valueOf(bowl);
     }
 }
