@@ -1,4 +1,4 @@
-# bowling
+# Bowling Project
 Ten Pin Bowling score tracker
 
 # Design
