@@ -172,7 +172,8 @@ public class Frame {
     }
 
     /**
-     * Returns the current score for the Frame
+     * Returns the current score for the Frame - this is guaranteed to have been
+     * updated by the player adding bowls
      * @return
      */
     public int getScore() {

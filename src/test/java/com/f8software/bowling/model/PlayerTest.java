@@ -166,6 +166,16 @@ class PlayerTest {
     }
 
     @Test
+    void ordinaryInvalidDataTest() {
+        player.addBowl(2);
+        assertEquals(Arrays.asList(2), player.getScores());
+        player.addBowl(9);
+        assertEquals(Arrays.asList(2), player.getScores());
+        player.addBowl(7);
+        assertEquals(Arrays.asList(9), player.getScores());
+    }
+
+    @Test
     void spareOrdinarySpareTest() {
         // Spare
         player.addBowl(2);
