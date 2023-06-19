@@ -97,7 +97,7 @@ public class StandardOutRenderer implements Renderer {
      * Renders the individual bowl scores
      * @param frame
      */
-    private StringBuilder renderBowls(StringBuilder builder, Frame frame) {
+    protected StringBuilder renderBowls(StringBuilder builder, Frame frame) {
         switch (frame.getScoreType()) {
             case STRIKE -> {
                 if (frame.isLastFrame()) {
