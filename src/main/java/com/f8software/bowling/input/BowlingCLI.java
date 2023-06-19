@@ -11,10 +11,10 @@ import java.util.Scanner;
  */
 public class BowlingCLI implements InputProvider {
 
+    final static Logger logger = LogManager.getLogger(BowlingCLI.class);
     private static int MAX_TRIES = 3;
     private static final String MESSAGE = "How many pins were knocked down?";
     private static final String INVALID_MESSAGE = "Invalid input, please enter a number";
-    final static Logger logger = LogManager.getLogger(BowlingCLI.class);
 
     /**
      * This method is used to record bowl counts from a ten pin bowling player.

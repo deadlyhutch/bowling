@@ -116,13 +116,28 @@ class PlayerTest {
         List<Integer> setup = Collections.nCopies(18, 0);
 
         assertEquals(Arrays.asList(0,0,0,0,0,0,0,0,0, 30), runGame(setup, Arrays.asList(10, 10, 10)));
-        assertEquals(Arrays.asList(0,0,0,0,0,0,0,0,0, 10), runGame(setup, Arrays.asList(10, 0, 0)));
         assertEquals(Arrays.asList(0,0,0,0,0,0,0,0,0, 20), runGame(setup, Arrays.asList(10, 10, 0)));
         assertEquals(Arrays.asList(0,0,0,0,0,0,0,0,0, 24), runGame(setup, Arrays.asList(10, 10, 4)));
-        assertEquals(Arrays.asList(0,0,0,0,0,0,0,0,0, 20), runGame(setup, Arrays.asList(10, 4, 6)));
-        assertEquals(Arrays.asList(0,0,0,0,0,0,0,0,0, 19), runGame(setup, Arrays.asList(10, 4, 5)));
-        assertEquals(Arrays.asList(0,0,0,0,0,0,0,0,0, 20), runGame(setup, Arrays.asList(4, 6, 10)));
+
+        assertEquals(Arrays.asList(0,0,0,0,0,0,0,0,0, 20), runGame(setup, Arrays.asList(10, 0, 10)));
+        assertEquals(Arrays.asList(0,0,0,0,0,0,0,0,0, 10), runGame(setup, Arrays.asList(10, 0, 0)));
+        assertEquals(Arrays.asList(0,0,0,0,0,0,0,0,0, 14), runGame(setup, Arrays.asList(10, 0, 4)));
+
+        assertEquals(Arrays.asList(0,0,0,0,0,0,0,0,0, 20), runGame(setup, Arrays.asList(10, 3, 7)));
+        assertEquals(Arrays.asList(0,0,0,0,0,0,0,0,0, 16), runGame(setup, Arrays.asList(10, 3, 3)));
+        assertEquals(Arrays.asList(0,0,0,0,0,0,0,0,0, 13), runGame(setup, Arrays.asList(10, 3, 0)));
+
+        assertEquals(Arrays.asList(0,0,0,0,0,0,0,0,0, 20), runGame(setup, Arrays.asList(0, 10, 10)));
+        assertEquals(Arrays.asList(0,0,0,0,0,0,0,0,0, 10), runGame(setup, Arrays.asList(0, 10, 0)));
         assertEquals(Arrays.asList(0,0,0,0,0,0,0,0,0, 13), runGame(setup, Arrays.asList(0, 10, 3)));
+        assertEquals(Arrays.asList(0,0,0,0,0,0,0,0,0, 0), runGame(setup, Arrays.asList(0, 0)));
+        assertEquals(Arrays.asList(0,0,0,0,0,0,0,0,0, 3), runGame(setup, Arrays.asList(0, 3)));
+
+        assertEquals(Arrays.asList(0,0,0,0,0,0,0,0,0, 3), runGame(setup, Arrays.asList(3, 0)));
+        assertEquals(Arrays.asList(0,0,0,0,0,0,0,0,0, 6), runGame(setup, Arrays.asList(3, 3)));
+        assertEquals(Arrays.asList(0,0,0,0,0,0,0,0,0, 20), runGame(setup, Arrays.asList(3, 7, 10)));
+        assertEquals(Arrays.asList(0,0,0,0,0,0,0,0,0, 10), runGame(setup, Arrays.asList(3, 7, 0)));
+        assertEquals(Arrays.asList(0,0,0,0,0,0,0,0,0, 13), runGame(setup, Arrays.asList(3, 7, 3)));
 
     }
 

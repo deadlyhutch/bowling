@@ -16,7 +16,6 @@ public class Frame {
     private FrameState state = FrameState.NEW;
     private ScoreType scoreType = ScoreType.NORMAL;
     private final List<Integer> bowls = new ArrayList<>();
-
     private static final int MAX_PINS = 10;
     private int score;
     private boolean isLastFrame;
@@ -152,7 +151,7 @@ public class Frame {
                 if (totalBowled() < MAX_PINS) {
                     state = FrameState.COMPLETE;
                 } else {
-                    if (totalBowled() == MAX_PINS) {
+                    if (totalBowled() == MAX_PINS && getFirstBowlScore() != MAX_PINS) {
                         scoreType = ScoreType.SPARE;
                     }
                     state = FrameState.TWO_BOWLED;
@@ -210,7 +209,7 @@ public class Frame {
 
     /**
      * Return true if the Frame is a strike
-     * @return true if frame is a Strike
+     * @return true if frame is a Strike otherwise false
      */
     public boolean isStrike() {
         return scoreType == ScoreType.STRIKE;
@@ -218,7 +217,7 @@ public class Frame {
 
     /**
      * Returns true if the Frame is a spare
-     * @return true if the frame is a Spare
+     * @return true if the frame is a Spare, otherwise false
      */
     public boolean isSpare() {
         return scoreType == ScoreType.SPARE;

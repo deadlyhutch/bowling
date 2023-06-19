@@ -28,6 +28,7 @@ public class StandardOutRenderer implements Renderer {
     private static final String BOWL_END= " ";
     private static final String BLANK = "";
     private static final String HORIZONTAL_LINE = "-".repeat(80);
+    private StringBuilder builder;
 
     /**
      * This method is responsible for rendering the player scores to the
@@ -40,12 +41,13 @@ public class StandardOutRenderer implements Renderer {
      */
     @Override
     public void render(Player player) {
+        builder = new StringBuilder();
         List<Frame> frames = player.getFrames();
 
         System.out.println(HORIZONTAL_LINE);
 
         renderFrameHeaderRow();
-        renderBowlsRow(frames);
+        System.out.print(renderBowlsRow(builder, frames));
         renderScoreRow(frames);
 
         System.out.println(HORIZONTAL_LINE);
@@ -65,12 +67,13 @@ public class StandardOutRenderer implements Renderer {
      * Renders the Bowl Row
      * @param frames The Frames that have been played so far
      */
-    private void renderBowlsRow(List<Frame> frames) {
-        System.out.println();
-        System.out.print(BOWLS_ROW_START);
+    private StringBuilder renderBowlsRow(StringBuilder builder, List<Frame> frames) {
+        builder.append("\n");
+        builder.append(BOWLS_ROW_START);
         for (Frame frame : frames) {
-            renderBowls(frame);
+            renderBowls(builder, frame);
         }
+        return builder;
     }
 
     /**
@@ -90,68 +93,71 @@ public class StandardOutRenderer implements Renderer {
      * Renders the individual bowl scores
      * @param frame
      */
-    private void renderBowls(Frame frame) {
+    private StringBuilder renderBowls(StringBuilder builder, Frame frame) {
         switch (frame.getScoreType()) {
             case STRIKE -> {
                 if (frame.isLastFrame()) {
-                    renderLastFrameStrike(frame);
+                    renderLastFrameStrike(builder, frame);
                 } else {
-                    System.out.print(STRIKE_TEMPLATE);
+                    builder.append(STRIKE_TEMPLATE);
                 }
             }
             case SPARE -> {
                 if (frame.isLastFrame()) {
-                    renderLastFrameSpare(frame);
+                    renderLastFrameSpare(builder, frame);
                 } else {
-                    System.out.print(SPARE_TEMPLATE.formatted(frame.getFirstBowlScore()));
+                    builder.append(SPARE_TEMPLATE.formatted(frame.getFirstBowlScore()));
                 }
             }
             case NORMAL -> {
                 List<Integer> bowls = frame.getBowls();
-                System.out.print(BOWL_START);
+                builder.append(BOWL_START);
                 for (Integer bowl : bowls) {
-                    System.out.print(BOWL_TEMPLATE.formatted(bowl));
+                    builder.append(BOWL_TEMPLATE.formatted(bowl));
                 }
-                System.out.print(BOWL_END);
+                builder.append(BOWL_END);
             }
         }
+        return builder;
     }
 
     /**
      * Renders the last Frame of the game as it has some special case logic for a Spare
      * @param frame
      */
-    private void renderLastFrameSpare(Frame frame) {
+    private StringBuilder renderLastFrameSpare(StringBuilder builder, Frame frame) {
         if (frame.getStatus() == Frame.FrameState.COMPLETE) {
             int third = frame.getThirdBowlScore();
-            System.out.print(LAST_FRAME_SPARE_TEMPLATE.formatted(frame.getFirstBowlScore(), third == 10 ? STRIKE : third));
+            builder.append(LAST_FRAME_SPARE_TEMPLATE.formatted(frame.getFirstBowlScore(), third == 10 ? STRIKE : third));
         } else {
-            System.out.print(SPARE_TEMPLATE.formatted(frame.getFirstBowlScore()));
+            builder.append(SPARE_TEMPLATE.formatted(frame.getFirstBowlScore()));
         }
+        return builder;
     }
 
     /**
      * Renders the last Frame of the game as it has some special case logic for a Strike
      * @param frame
      */
-    private void renderLastFrameStrike(Frame frame) {
+    private StringBuilder renderLastFrameStrike(StringBuilder builder, Frame frame) {
         switch (frame.getStatus()) {
             case COMPLETE -> {
                 int second = frame.getSecondBowlScore();
                 int third  = frame.getThirdBowlScore();
                 if (second + third == MAX_PINS) {
-                    System.out.print(LAST_FRAME_STRIKE_TEMPLATE.formatted(second == MAX_PINS ? STRIKE : second, SPARE));
+                    builder.append(LAST_FRAME_STRIKE_TEMPLATE.formatted(second == MAX_PINS ? STRIKE : second, SPARE));
                 } else {
-                    System.out.print(LAST_FRAME_STRIKE_TEMPLATE.formatted(second == MAX_PINS ? STRIKE : second, third == MAX_PINS ? STRIKE : third));
+                    builder.append(LAST_FRAME_STRIKE_TEMPLATE.formatted(second == MAX_PINS ? STRIKE : second, third == MAX_PINS ? STRIKE : third));
                 }
             }
             case TWO_BOWLED -> {
                 int second = frame.getSecondBowlScore();
-                System.out.print(LAST_FRAME_STRIKE_TEMPLATE.formatted( second == MAX_PINS ? STRIKE : second, BLANK));
+                builder.append(LAST_FRAME_STRIKE_TEMPLATE.formatted( second == MAX_PINS ? STRIKE : second, BLANK));
             }
             default -> {
-                System.out.print(LAST_FRAME_STRIKE_TEMPLATE.formatted( BLANK, BLANK));
+                builder.append(LAST_FRAME_STRIKE_TEMPLATE.formatted( BLANK, BLANK));
             }
         }
+        return builder;
     }
 }
